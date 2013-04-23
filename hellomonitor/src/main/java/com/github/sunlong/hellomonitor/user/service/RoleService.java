@@ -47,7 +47,7 @@ public class RoleService {
     }
 
     @Transactional(readOnly = false, rollbackFor = Exception.class)
-    public void save(Role role) throws AppException {
+    public void create(Role role) throws AppException {
         if(roleDao.findByName(role.getName())!=null){
             throw new AppException(MessageCode.ROLE_EXIST_ERROR, role.getName());
         }

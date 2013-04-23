@@ -42,7 +42,7 @@ public class ResourceService {
     private Validator validator;
 
     @Transactional(readOnly = false, rollbackFor = Exception.class)
-    public void save(Resource resource) throws AppException {
+    public void create(Resource resource) throws AppException {
         if(resourceDao.findByName(resource.getName())!=null){
             throw new AppException(MessageCode.RESOURCE_EXIST_ERROR, resource.getName());
         }

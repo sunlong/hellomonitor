@@ -29,7 +29,7 @@ public class UserGroupService {
     private Validator validator;
 
     @Transactional(readOnly = false, rollbackFor = Exception.class)
-    public void save(UserGroup userGroup) throws AppException {
+    public void create(UserGroup userGroup) throws AppException {
         userGroup.setId(null);
         userGroup.validate(validator);
         //判断用户名是否存在
@@ -115,7 +115,7 @@ public class UserGroupService {
     }
 
     @Transactional(readOnly = false, rollbackFor = Exception.class)
-    public void changeParent(Integer id, Integer parentId) throws AppException {
+    public void updateParent(Integer id, Integer parentId) throws AppException {
         UserGroup userGroup = userGroupDao.findOne(id);
         if(userGroup == null){
             throw new AppException(MessageCode.USER_GROUP_NOT_EXIST_ERROR, id);
