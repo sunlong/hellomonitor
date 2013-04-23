@@ -60,4 +60,8 @@ public class Device implements Serializable {
     public void setTemplates(Set<Template> templates) {
         this.templates = templates;
     }
+
+    public void validate() {
+
+    }
 }

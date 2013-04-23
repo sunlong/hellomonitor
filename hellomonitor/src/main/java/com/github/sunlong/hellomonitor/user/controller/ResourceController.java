@@ -41,7 +41,7 @@ public class ResourceController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     @ResponseBody
     public Result create2(Resource resource) throws AppException {
-        resourceService.save(resource);
+        resourceService.create(resource);
         return new Result();
     }
 

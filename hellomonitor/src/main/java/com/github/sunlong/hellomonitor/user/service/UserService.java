@@ -55,7 +55,7 @@ public class UserService {
     }
 
     @Transactional(readOnly = false, rollbackFor = Exception.class)
-    public void save(User user) throws AppException {
+    public void create(User user) throws AppException {
         user.setCreatedDate(new Date());
         user.setDefault(false);
         user.validate(validator);

@@ -22,12 +22,13 @@
             <div id="error"></div>
             <div class="row-fluid">
                 <div>
-                    <form  action="${ctx}/device/list" method="post" class="form-horizontal">
-                        <div class="pull-right">
+                    <div class="pull-left"><a href="${ctx}/device/create" class="btn">添加</a></div>
+                    <div class="pull-right">
+                        <form  action="${ctx}/device/list" method="post" class="form-horizontal">
                             IP地址：<input type="text" name="params['ip']" class="input-medium" value="${params.ip}">&nbsp;
                             <button type="submit" class="btn btn-primary"><i class="icon-search icon-white"></i>查询</button>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
                 <table class="table table-striped table-bordered table-condensed">
                     <thead><tr>

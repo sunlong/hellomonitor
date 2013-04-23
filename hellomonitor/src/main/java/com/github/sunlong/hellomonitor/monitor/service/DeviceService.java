@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -24,6 +25,7 @@ import java.util.Map;
  * Time: 上午11:07
  */
 @Service
+@Transactional(readOnly = true)
 public class DeviceService {
     private IDeviceDao deviceDao;
 
@@ -39,22 +41,9 @@ public class DeviceService {
                 if(params != null){
                     List<Predicate> predicates = new ArrayList<Predicate>();
 
-                    String username = (String) params.get("username");
                     String ip = (String) params.get("ip");
-                    String message = (String) params.get("message");
-                    Boolean like = (Boolean) params.get("like");
-                    if(StringUtils.isNotBlank(username)){
-                        if(like == null || like){
-                            predicates.add(builder.like(root.<String>get("username"), "%" + username + "%"));
-                        }else{
-                            predicates.add(builder.equal(root.<String>get("username"), username));
-                        }
-                    }
                     if(StringUtils.isNotBlank(ip)){
                         predicates.add(builder.equal(root.get("ip"), ip));
-                    }
-                    if(StringUtils.isNotBlank(message)){
-                        predicates.add(builder.like(root.<String>get("message"), "%" + message + "%"));
                     }
                     return builder.and(predicates.toArray(new Predicate[predicates.size()]));
                 }
@@ -63,5 +52,11 @@ public class DeviceService {
         };
 
         return deviceDao.findAll(spec, new PageRequest(page - 1, pageSize, sortBean.genSort()));
+    }
+
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
+    public void create(Device device) {
+        device.validate();
+        deviceDao.save(device);
     }
 }

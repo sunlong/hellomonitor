@@ -46,7 +46,7 @@ public class RoleController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     @ResponseBody
     public Result create2(Role role) throws AppException {
-        roleService.save(role);
+        roleService.create(role);
         return new Result();
     }
 

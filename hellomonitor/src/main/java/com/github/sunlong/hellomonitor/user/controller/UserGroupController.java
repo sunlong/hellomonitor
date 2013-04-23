@@ -44,7 +44,7 @@ public class UserGroupController {
     @RequestMapping(value = "/create")
     @ResponseBody
     public Result create(UserGroup userGroup) throws AppException {
-        userGroupService.save(userGroup);
+        userGroupService.create(userGroup);
         return new Result();
     }
 
@@ -65,7 +65,7 @@ public class UserGroupController {
     @ResponseBody
     @RequestMapping(value = "/changeParent")
     public Result changeParent(Integer id, Integer parentId) throws AppException {
-        userGroupService.changeParent(id, parentId);
+        userGroupService.updateParent(id, parentId);
         return new Result();
     }
 }

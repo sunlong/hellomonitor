@@ -144,7 +144,7 @@ public class UserController {
         if(user.getRole() == null){
             user.setRole(roleService.findDefaultRole());
         }
-        userService.save(user);
+        userService.create(user);
         return new Result();
     }
 
@@ -158,7 +158,7 @@ public class UserController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     @ResponseBody
     public Result create2(User user) throws AppException {
-        userService.save(user);
+        userService.create(user);
         return new Result();
     }
 
