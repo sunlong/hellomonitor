@@ -191,7 +191,7 @@
                 </c:forEach>
                 </tbody>
             </table>
-            <tags:pagination2 page="${roles}" paginationSize="5"/>
+            <tags:pagination page="${roles}" paginationSize="5"/>
         </div>
     </div>
 </div>

@@ -74,7 +74,7 @@
                     </c:forEach>
                     </tbody>
                 </table>
-                <tags:pagination2 page="${users}" paginationSize="5"/>
+                <tags:pagination page="${users}" paginationSize="5"/>
             </div>
         </div>
     </div>
