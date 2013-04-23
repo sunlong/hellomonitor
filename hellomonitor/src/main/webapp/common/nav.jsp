@@ -27,8 +27,7 @@
                 <ul class="dropdown-menu">
                     <li><a href="${ctx}/device/list">设备管理</a></li>
                     <li><a href="${ctx}/event/list">告警管理</a></li>
-                    <li><a href="${ctx}/devicetemplate/templateList">监控模板管理</a></li>
-                    <li><a href="${ctx}/setting/backup">备份管理</a></li>
+                    <li><a href="${ctx}/template/list">模板管理</a></li>
                 </ul>
             </div>
 

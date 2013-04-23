@@ -23,9 +23,31 @@
 		<property name="filterChainDefinitions">
 			<value>
                 /static/** = anon
+
                 /user/register = anon
-                /user/login = authc
                 /user/logout = logout
+                /role/create = authc, perms[role:create]
+                /role/update = authc, perms[role:update]
+                /role/delete = authc, perms[role:delete]
+                /role/batchDelete = authc, perms[role:delete]
+                /role/updatePermission = authc, perms[role:update]
+
+                /user/create = authc, perms[user:create]
+                /user/update = authc, perms[user:update]
+                /user/delete = authc, perms[user:delete]
+
+                /userGroup/create = authc, perms[userGroup:create]
+                /userGroup/update = authc, perms[userGroup:update]
+                /userGroup/changeParent = authc, perms[userGroup:update]
+                /userGroup/delete = authc, perms[userGroup:delete]
+
+                /resource/create = authc, perms[resource:create]
+                /resource/addAction = authc, perms[resource:update]
+                /resource/deleteAction = authc, perms[resource:update]
+                /resource/update = authc, perms[resource:update]
+                /resource/delete = authc, perms[resource:delete]
+                /resource/batchDelete = authc, perms[resource:delete]
+
 				/** = authc
 			</value>
 		</property>
