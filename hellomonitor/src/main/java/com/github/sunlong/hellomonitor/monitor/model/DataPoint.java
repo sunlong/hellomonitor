@@ -23,6 +23,9 @@ public class DataPoint {
     @JoinColumn (name="data_source_id")
     private DataSource dataSource;
 
+    @Column(length = 8, nullable = false)
+    private String type;//COUNTER, DERIVE, ABSOLUTE, GAUGE, COMPUTE
+
     public Integer getId() {
         return id;
     }
@@ -53,5 +56,13 @@ public class DataPoint {
 
     public void setDataSource(DataSource dataSource) {
         this.dataSource = dataSource;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

@@ -35,7 +35,7 @@ public class UserGroupController {
         List<UserGroup> groups = userGroupService.list(parentUserGroupId);
         List<TreeNode> nodes = new ArrayList<TreeNode>();
         for(UserGroup userGroup : groups){
-            nodes.add(new TreeNode(userGroup, userGroupService.hasChildren(userGroup.getId())));
+            nodes.add(new TreeNode(userGroup.getId().toString(), userGroup.getName(), userGroupService.hasChildren(userGroup.getId())));
         }
 
         return nodes;

@@ -2,7 +2,6 @@ package com.github.sunlong.hellomonitor.common;
 
 import com.github.sunlong.hellomonitor.user.model.Action;
 import com.github.sunlong.hellomonitor.user.model.Resource;
-import com.github.sunlong.hellomonitor.user.model.UserGroup;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,14 +18,7 @@ public class TreeNode {
     private boolean open;
     private List<TreeNode> children;
 
-    public TreeNode(UserGroup userGroup, boolean hasChildren) {
-        this.name = userGroup.getName();
-        this.isParent = hasChildren;
-        this.value = userGroup.getId().toString();
-        this.children = new ArrayList<TreeNode>();
-    }
-
-    public TreeNode(String name ,boolean hasChildren,String value) {
+    public TreeNode(String value, String name ,boolean hasChildren) {
         this.name = name;
         this.isParent = hasChildren;
         this.value = value;

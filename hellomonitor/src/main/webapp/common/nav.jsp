@@ -25,6 +25,7 @@
                     <i class="icon-eye-open"></i><span class="hidden-phone">监控管理</span><span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu">
+                    <li><a href="${ctx}/deviceClass/list">设备分类管理</a></li>
                     <li><a href="${ctx}/device/list">设备管理</a></li>
                     <li><a href="${ctx}/event/list">告警管理</a></li>
                     <li><a href="${ctx}/template/list">模板管理</a></li>
