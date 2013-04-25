@@ -1,6 +1,7 @@
 package com.github.sunlong.hellomonitor.monitor.model;
 
 import javax.persistence.*;
+import javax.validation.Validator;
 import java.util.Set;
 
 /**
@@ -65,5 +66,10 @@ public class DeviceClass {
 
     public void setTemplates(Set<Template> templates) {
         this.templates = templates;
+    }
+
+    public void validate(Validator validator) {
+
+
     }
 }

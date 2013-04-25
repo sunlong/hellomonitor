@@ -10,4 +10,12 @@ import javax.persistence.Entity;
 @Entity
 public class SnmpDataSource extends DataSource {
     private String oid;
+
+    public String getOid() {
+        return oid;
+    }
+
+    public void setOid(String oid) {
+        this.oid = oid;
+    }
 }

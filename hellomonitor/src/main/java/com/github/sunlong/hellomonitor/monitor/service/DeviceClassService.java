@@ -1,5 +1,7 @@
 package com.github.sunlong.hellomonitor.monitor.service;
 
+import com.github.sunlong.hellomonitor.common.MessageCode;
+import com.github.sunlong.hellomonitor.exception.AppException;
 import com.github.sunlong.hellomonitor.monitor.dao.IDeviceClassDao;
 import com.github.sunlong.hellomonitor.monitor.model.DeviceClass;
 import org.springframework.data.jpa.domain.Specification;
@@ -8,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.persistence.criteria.*;
+import javax.validation.Validator;
 import java.util.List;
 
 /**
@@ -20,6 +23,9 @@ import java.util.List;
 public class DeviceClassService {
     @Resource
     private IDeviceClassDao deviceClassDao;
+
+    @Resource
+    private Validator validator;
 
     public List<DeviceClass> list(final Integer parentId) {
         Specification<DeviceClass> spec = new Specification<DeviceClass>() {
@@ -45,5 +51,15 @@ public class DeviceClassService {
         };
 
         return deviceClassDao.count(spec) > 0;
+    }
+
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
+    public void create(DeviceClass deviceClass) throws AppException {
+        deviceClass.validate(validator);
+        //判断用户名是否存在
+        if(deviceClassDao.findByName(deviceClass.getName())!=null){
+            throw new AppException(MessageCode.DEVICE_CLASS_EXIST_ERROR, deviceClass.getName());
+        }
+        deviceClassDao.save(deviceClass);
     }
 }

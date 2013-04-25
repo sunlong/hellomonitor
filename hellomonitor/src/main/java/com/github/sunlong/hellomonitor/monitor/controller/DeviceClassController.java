@@ -1,6 +1,8 @@
 package com.github.sunlong.hellomonitor.monitor.controller;
 
+import com.github.sunlong.hellomonitor.common.Result;
 import com.github.sunlong.hellomonitor.common.TreeNode;
+import com.github.sunlong.hellomonitor.exception.AppException;
 import com.github.sunlong.hellomonitor.monitor.model.DeviceClass;
 import com.github.sunlong.hellomonitor.monitor.service.DeviceClassService;
 import org.springframework.stereotype.Controller;
@@ -36,5 +38,12 @@ public class DeviceClassController {
             nodes.add(new TreeNode(deviceClass.getId().toString(), deviceClass.getName(), deviceClassService.hasChildren(deviceClass.getId())));
         }
         return nodes;
+    }
+
+    @RequestMapping(value = "/create")
+    @ResponseBody
+    public Result create(DeviceClass deviceClass) throws AppException {
+        deviceClassService.create(deviceClass);
+        return new Result();
     }
 }

@@ -5,6 +5,9 @@ import java.io.Serializable;
 import java.util.Set;
 
 /**
+ * 设备和模板绑带渥的时候会创建属于这个设备的新的模板、数据源、数据点（通过复制的方式）
+ * 修改一个设备的模板信息不会影响到真正的模板
+ * 至于修改模板要不要反应到现有的设备上，这个待定
  * User: sunlong
  * Date: 13-4-22
  * Time: 上午8:40
@@ -21,12 +24,7 @@ public class Device implements Serializable {
     @Column(length = 32, nullable = false)
     private String ip;
 
-
-    @ManyToMany
-    @JoinTable(name = "device_template",
-            joinColumns = @JoinColumn(name="device_id"),
-            inverseJoinColumns = @JoinColumn(name="template_id")
-    )
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "device", orphanRemoval = true)
     private Set<Template> templates;
 
     public Integer getId() {
