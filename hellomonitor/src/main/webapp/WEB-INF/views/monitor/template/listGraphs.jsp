@@ -36,16 +36,16 @@
                         <th>操作</th>
                     </tr></thead>
                     <tbody>
-                    <c:forEach items="${templates.content}" var="template">
+                    <c:forEach items="${devices.content}" var="device">
                         <tr>
-                            <td>${template.name}</td>
-                            <td>${template.deviceClass.name}</td>
-                            <td><a href="${ctx}/template/listDataSources?id=${template.id}" class="btn">数据源管理</a> <a href="${ctx}/template/listGraphs?id=${template.id}" class="btn">图形管理</a></td>
+                            <td>${device.name}</td>
+                            <td>${device.deviceClass.name}</td>
+                            <td><a href="${ctx}/datasource/list" class="btn">数据源管理</a> <a href="${ctx}/graph/list" class="btn">图形管理</a></td>
                         </tr>
                     </c:forEach>
                     </tbody>
                 </table>
-                <tags:pagination page="${templates}" paginationSize="5"/>
+                <tags:pagination page="${devices}" paginationSize="5"/>
             </div>
         </div>
     </div>

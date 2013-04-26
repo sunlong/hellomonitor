@@ -4,12 +4,15 @@ import com.github.sunlong.hellomonitor.common.MessageCode;
 import com.github.sunlong.hellomonitor.common.SortBean;
 import com.github.sunlong.hellomonitor.exception.AppException;
 import com.github.sunlong.hellomonitor.monitor.dao.ITemplateDao;
+import com.github.sunlong.hellomonitor.monitor.model.DataSource;
 import com.github.sunlong.hellomonitor.monitor.model.Template;
 import org.apache.commons.lang3.StringUtils;
+import org.hibernate.Hibernate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -27,6 +30,7 @@ import java.util.Map;
  * Time: 上午10:04
  */
 @Service
+@Transactional(readOnly = false)
 public class TemplateService {
     @Resource
     private ITemplateDao templateDao;
@@ -55,6 +59,7 @@ public class TemplateService {
         return templateDao.findAll(spec, new PageRequest(page - 1, pageSize, sortBean.genSort()));
     }
 
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
     public void create(Template template) throws AppException {
         template.validate(validator);
         //判断用户名是否存在
@@ -63,5 +68,22 @@ public class TemplateService {
         }
         templateDao.save(template);
 
+    }
+
+    public Template find(Integer id) throws AppException {
+        Template template = templateDao.findOne(id);
+        if(template == null){
+            throw new AppException(MessageCode.TEMPLATE_NOT_EXIST_ERROR, id);
+        }
+        Hibernate.initialize(template.getDataSources());
+        Hibernate.initialize(template.getGraphs());
+        return template;
+    }
+
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
+    public void createDataSource(DataSource dataSource) throws AppException {
+        Template template = find(dataSource.getTemplate().getId());
+        template.getDataSources().add(dataSource);
+        templateDao.save(template);
     }
 }

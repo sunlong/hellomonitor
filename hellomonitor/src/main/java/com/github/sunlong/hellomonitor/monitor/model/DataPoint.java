@@ -1,5 +1,7 @@
 package com.github.sunlong.hellomonitor.monitor.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 
 /**
@@ -8,6 +10,7 @@ import javax.persistence.*;
  * Time: 上午10:28
  */
 @Entity
+@JsonIgnoreProperties({"dataSource"})
 public class DataPoint {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)

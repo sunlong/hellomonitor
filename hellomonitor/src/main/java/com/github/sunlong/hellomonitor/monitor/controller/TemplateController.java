@@ -4,6 +4,7 @@ import com.github.sunlong.hellomonitor.common.Result;
 import com.github.sunlong.hellomonitor.common.SearchBean;
 import com.github.sunlong.hellomonitor.common.SortBean;
 import com.github.sunlong.hellomonitor.exception.AppException;
+import com.github.sunlong.hellomonitor.monitor.model.DataSource;
 import com.github.sunlong.hellomonitor.monitor.model.Template;
 import com.github.sunlong.hellomonitor.monitor.service.TemplateService;
 import org.springframework.data.domain.Page;
@@ -39,12 +40,24 @@ public class TemplateController {
         if(searchBean.getParams() != null){
             params.put("name", searchBean.getParams().get("name"));
         }
-        Page<Template> devices = templateService.list(page, pageSize, params, sortBean);
-        model.addAttribute("devices", devices);
+        Page<Template> templates = templateService.list(page, pageSize, params, sortBean);
+        model.addAttribute("templates", templates);
         model.addAttribute("searchParams", searchBean.genSearchParams());
         model.addAttribute("params", searchBean.getParams());
         model.addAttribute("sortBean", sortBean);
         return "monitor/template/list";
+    }
+
+    @RequestMapping("/listDataSources")
+    public String listDataSources(Integer id, Model model) throws AppException {
+        model.addAttribute("template", templateService.find(id));
+        return "monitor/template/listDataSources";
+    }
+
+    @RequestMapping("/listGraphs")
+    public String listGraphs(Integer id, Model model) throws AppException {
+        model.addAttribute("template", templateService.find(id));
+        return "monitor/template/listGraphs";
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
@@ -56,6 +69,13 @@ public class TemplateController {
     @ResponseBody
     public Result create2(Template template) throws AppException {
         templateService.create(template);
+        return new Result();
+    }
+
+    @RequestMapping(value = "/addDataSource")
+    @ResponseBody
+    public Result addDataSource(DataSource dataSource) throws AppException {
+        templateService.createDataSource(dataSource);
         return new Result();
     }
 }
