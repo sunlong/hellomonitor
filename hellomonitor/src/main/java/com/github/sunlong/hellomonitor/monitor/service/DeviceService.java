@@ -1,6 +1,8 @@
 package com.github.sunlong.hellomonitor.monitor.service;
 
+import com.github.sunlong.hellomonitor.common.MessageCode;
 import com.github.sunlong.hellomonitor.common.SortBean;
+import com.github.sunlong.hellomonitor.exception.AppException;
 import com.github.sunlong.hellomonitor.monitor.dao.IDeviceDao;
 import com.github.sunlong.hellomonitor.monitor.model.Device;
 import org.apache.commons.lang3.StringUtils;
@@ -58,5 +60,41 @@ public class DeviceService {
     public void create(Device device) {
         device.validate();
         deviceDao.save(device);
+    }
+
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
+    public void update(Device device) throws AppException {
+        Device toUpdate = find(device.getId());
+
+        Device deviceByIp = deviceDao.findByIp(device.getIp());
+
+        if(deviceByIp != null && deviceByIp != toUpdate){
+            throw new AppException(MessageCode.DEVICE_EXIST_ERROR, device.getIp());
+        }
+        toUpdate.setIp(device.getIp());
+
+        Device deviceByName = deviceDao.findByName(device.getName());
+        if(deviceByName != null && deviceByName != toUpdate){
+            throw new AppException(MessageCode.DEVICE_EXIST_ERROR, device.getIp());
+        }
+        toUpdate.setName(device.getName());
+
+        toUpdate.setDeviceClass(device.getDeviceClass());
+
+        deviceDao.save(toUpdate);
+    }
+
+    public Device find(Integer id) throws AppException {
+        Device device = deviceDao.findOne(id);
+        if(device == null){
+            throw new AppException(MessageCode.DEVICE_NOT_EXIST_ERROR, id);
+        }
+        return device;
+    }
+
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
+    public void delete(Integer id) throws AppException {
+        Device device = find(id);
+        deviceDao.delete(device);
     }
 }

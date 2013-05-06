@@ -28,6 +28,9 @@ public class DeviceClass {
     @OneToMany(mappedBy="deviceClass")
     private Set<Template> templates;
 
+    @OneToMany(mappedBy = "deviceClass")
+    private Set<Device> devices;
+
     public Integer getId() {
         return id;
     }
@@ -66,6 +69,14 @@ public class DeviceClass {
 
     public void setTemplates(Set<Template> templates) {
         this.templates = templates;
+    }
+
+    public Set<Device> getDevices() {
+        return devices;
+    }
+
+    public void setDevices(Set<Device> devices) {
+        this.devices = devices;
     }
 
     public void validate(Validator validator) {

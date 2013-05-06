@@ -24,6 +24,10 @@ public class Device implements Serializable {
     @Column(length = 32, nullable = false)
     private String ip;
 
+    @ManyToOne
+    @JoinColumn(name = "device_class_id")
+    private DeviceClass deviceClass;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "device", orphanRemoval = true)
     private Set<Template> templates;
 
@@ -57,6 +61,14 @@ public class Device implements Serializable {
 
     public void setTemplates(Set<Template> templates) {
         this.templates = templates;
+    }
+
+    public DeviceClass getDeviceClass() {
+        return deviceClass;
+    }
+
+    public void setDeviceClass(DeviceClass deviceClass) {
+        this.deviceClass = deviceClass;
     }
 
     public void validate() {

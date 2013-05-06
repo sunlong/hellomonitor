@@ -10,4 +10,7 @@ import org.springframework.data.repository.CrudRepository;
  * Time: 上午11:08
  */
 public interface IDeviceDao extends CrudRepository<Device, Integer>, JpaSpecificationExecutor<Device> {
+    Device findByIp(String ip);
+
+    Device findByName(String name);
 }

@@ -65,7 +65,7 @@
                 },
                 async: {
                     enable: true,
-                    url:"${ctx}/userGroup/listSub"
+                    url:"${ctx}/deviceClass/listSub"
                 },
                 callback:{
                     beforeAsync: function(treeId, treeNode){
@@ -75,15 +75,15 @@
                         return true;
                     },
                     onAsyncSuccess: function(event, treeId, treeNode, msg){//修改模板时选中此模板所属的设备分类
-                        var userGroupId = 0;
+                        var deviceClassId = 0;
                         if($('input[name="id"]').val()){//修改模板
                             var msgObj = $.parseJSON(msg);
                             if(msgObj.length > 0){
-                                userGroupId = '${user.userGroup.id}';
+                                deviceClassId = '${template.deviceClass.id}';
                                 for(var i=0; i<msgObj.length; i++){
-                                    if(msgObj[i].value == userGroupId){
+                                    if(msgObj[i].value == deviceClassId){
                                         var treeObj = $.fn.zTree.getZTreeObj("tree");
-                                        var node = treeObj.getNodeByParam("value", userGroupId, treeNode);
+                                        var node = treeObj.getNodeByParam("value", deviceClassId, treeNode);
                                         $.fn.zTree.getZTreeObj("tree").selectNode(node);
                                     }
                                 }

@@ -60,4 +60,24 @@ public class DeviceController {
         deviceService.create(device);
         return new Result();
     }
+
+    @RequestMapping(value = "/update", method = RequestMethod.GET)
+    public String update1(Integer id, Model model) throws AppException {
+        model.addAttribute("device", deviceService.find(id));
+        return "monitor/device/create";
+    }
+
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    @ResponseBody
+    public Result update2(Device device) throws AppException {
+        deviceService.update(device);
+        return new Result();
+    }
+
+    @RequestMapping("/delete")
+    @ResponseBody
+    public Result delete(Integer id) throws AppException {
+        deviceService.delete(id);
+        return new Result();
+    }
 }

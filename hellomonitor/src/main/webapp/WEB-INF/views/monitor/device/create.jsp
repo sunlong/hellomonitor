@@ -19,7 +19,23 @@
             //客户端验证
             $("form").validate({
                 submitHandler: function(){
-                    $.post(url, $("form").serialize(), function(data){
+                    var deviceClass = '&deviceClass.id=';
+                    var nodes = $.fn.zTree.getZTreeObj("tree").getSelectedNodes();
+                    if(nodes.length == 0){//如果没有选择，就相当于没有改变设备分类
+                        <c:choose>
+                        <c:when test="${device.deviceClass.id != null}">
+                        deviceClass += ${device.deviceClass.id};
+                        </c:when>
+                        <c:otherwise>
+                        common.showError("#error", "请选择一个设备分类");
+                        return false;
+                        </c:otherwise>
+                        </c:choose>
+                    }else{
+                        deviceClass += nodes[0].value;
+                    }
+
+                    $.post(url, $("form").serialize() + deviceClass, function(data){
                         if(data.success){
                             location.href = '${ctx}/device/list';
                         }else{
@@ -33,6 +49,42 @@
                     ip: {required: true, ipv4: true}
                 }
             });
+
+            //设备分类
+            var setting = {
+                view: {
+                    selectedMulti: false
+                },
+                async: {
+                    enable: true,
+                    url:"${ctx}/deviceClass/listSub"
+                },
+                callback:{
+                    beforeAsync: function(treeId, treeNode){
+                        if(treeNode){
+                            $.fn.zTree.getZTreeObj("tree").setting.async.otherParam = {"parentUserGroupId": treeNode.value};
+                        }
+                        return true;
+                    },
+                    onAsyncSuccess: function(event, treeId, treeNode, msg){
+                        var deviceClassId = 0;
+                        if($('input[name="id"]').val()){//修改设备的话
+                            var msgObj = $.parseJSON(msg);
+                            if(msgObj.length > 0){
+                                deviceClassId = '${device.deviceClass.id}';
+                                for(var i=0; i<msgObj.length; i++){
+                                    if(msgObj[i].value == deviceClassId){
+                                        var treeObj = $.fn.zTree.getZTreeObj("tree");
+                                        var node = treeObj.getNodeByParam("value", deviceClassId, treeNode);
+                                        $.fn.zTree.getZTreeObj("tree").selectNode(node);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+            $.fn.zTree.init($("#tree"), setting);
         });
     </script>
 </head>
@@ -53,6 +105,12 @@
             <div id="info"></div>
             <form class="form-horizontal" autocomplete="off">
                 <input type="hidden" name="id" value="${device.id}">
+                <div class="control-group">
+                    <label class="control-label"><span class="font-red">*</span>设备分类</label>
+                    <div class="controls">
+                        <ul id="tree" class="ztree"></ul>
+                    </div>
+                </div>
                 <div class="control-group">
                     <label class="control-label" for="name"><span class="font-red">*</span>名称</label>
                     <div class="controls">

@@ -33,6 +33,7 @@
                 <table class="table table-striped table-bordered table-condensed">
                     <thead><tr>
                         <th>设备名称</th>
+                        <th>设备分类</th>
                         <th data-sort="${ctx}/device/list,${searchParams},ip,${sortBean.sortDir}">IP</th>
                         <th>操作</th>
                     </tr></thead>
@@ -40,8 +41,9 @@
                     <c:forEach items="${devices.content}" var="device">
                         <tr>
                             <td>${device.name}</td>
+                            <td>${device.deviceClass.name}</td>
                             <td>${device.ip}</td>
-                            <td></td>
+                            <td><a href="${ctx}/device/update" class="btn">修改</a> <button class="btn" data-action="delete=${device.id}">删除</button></td>
                         </tr>
                     </c:forEach>
                     </tbody>
