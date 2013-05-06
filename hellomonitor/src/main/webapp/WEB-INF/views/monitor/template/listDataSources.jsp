@@ -7,14 +7,32 @@
     <%@ include file="/common/header.jsp"%>
     <script type="text/javascript">
         $(function(){
+            var url = '${ctx}/template/addSnmpDataSource';
+            $("#data-source-type").change(function(){
+                var type = $(this).val();
+                switch(type){
+                    case 'SNMP':
+                        $('#snmp').show();
+                        $('#command').hide();
+                        break;
+                    case 'WMI':
+                        url = '${ctx}/template/addWmiDataSource';
+                        break;
+                    case 'COMMAND':
+                        $('#command').show();
+                        $('#snmp').hide();
+                        url = '${ctx}/template/addCmdDataSource';
+                        break;
+                }
+            });
             $("#addDS form").validate({
-                errorLabelContainer: $('info2'),
+                errorLabelContainer: $('#info2'),
                 submitHandler: function(form){
-                    $.post('${ctx}/template/addDataSource', $(form).serialize(), function(data){
+                    $.post(url, $(form).serialize(), function(data){
                         if(data.success){
                             location.reload();
                         }else{
-                            common.showError('info2', data.data);
+                            common.showError('#info2', data.data);
                         }
                     });
                     return false;
@@ -25,13 +43,13 @@
             });
 
             $("#addDP form").validate({
-                errorLabelContainer: $('info2'),
+                errorLabelContainer: $('#info3'),
                 submitHandler: function(form){
                     $.post('${ctx}/dataSource/addDataPoint', $(form).serialize(), function(data){
                         if(data.success){
                             location.reload();
                         }else{
-                            common.showError('info3', data.data);
+                            common.showError('#info3', data.data);
                         }
                     });
                     return false;
@@ -124,6 +142,22 @@
             <div class="control-group">
                 <label class="control-label">收集间隔(秒)：</label>
                 <div class="controls"><input type="text" name="collectionInterval" value="300"/></div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">类型：</label>
+                <div class="controls"><select id="data-source-type">
+                    <option value="SNMP">SNMP</option>
+                    <option value="WMI">WMI</option>
+                    <option value="COMMAND">COMMAND</option>
+                </select></div>
+            </div>
+            <div id="snmp" class="control-group">
+                <label class="control-label">OID：</label>
+                <div class="controls"><input type="text" name="oid" /></div>
+            </div>
+            <div id="command" class="control-group hide">
+                <label class="control-label">命令：</label>
+                <div class="controls"><input type="text" name="command" /></div>
             </div>
         </div>
         <div class="modal-footer">

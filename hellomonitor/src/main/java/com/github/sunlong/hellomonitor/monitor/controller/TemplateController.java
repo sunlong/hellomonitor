@@ -4,8 +4,7 @@ import com.github.sunlong.hellomonitor.common.Result;
 import com.github.sunlong.hellomonitor.common.SearchBean;
 import com.github.sunlong.hellomonitor.common.SortBean;
 import com.github.sunlong.hellomonitor.exception.AppException;
-import com.github.sunlong.hellomonitor.monitor.model.DataSource;
-import com.github.sunlong.hellomonitor.monitor.model.Template;
+import com.github.sunlong.hellomonitor.monitor.model.*;
 import com.github.sunlong.hellomonitor.monitor.service.TemplateService;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -72,9 +71,23 @@ public class TemplateController {
         return new Result();
     }
 
-    @RequestMapping(value = "/addDataSource")
+    @RequestMapping(value = "/addSnmpDataSource")
     @ResponseBody
-    public Result addDataSource(DataSource dataSource) throws AppException {
+    public Result addSnmpDataSource(SnmpDataSource dataSource) throws AppException {
+        templateService.createDataSource(dataSource);
+        return new Result();
+    }
+
+    @RequestMapping(value = "/addWmiDataSource")
+    @ResponseBody
+    public Result addWmiDataSource(WmiDataSource dataSource) throws AppException {
+        templateService.createDataSource(dataSource);
+        return new Result();
+    }
+
+    @RequestMapping(value = "/addCmdDataSource")
+    @ResponseBody
+    public Result addCmdDataSource(CommandDataSource dataSource) throws AppException {
         templateService.createDataSource(dataSource);
         return new Result();
     }
