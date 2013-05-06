@@ -62,4 +62,12 @@ public class DeviceClassService {
         }
         deviceClassDao.save(deviceClass);
     }
+
+    public DeviceClass find(Integer id) throws AppException {
+        DeviceClass deviceClass = deviceClassDao.findOne(id);
+        if(deviceClass == null){
+            throw new AppException(MessageCode.DEVICE_CLASS_NOT_EXIST_ERROR, id);
+        }
+        return deviceClass;
+    }
 }

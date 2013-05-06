@@ -2,6 +2,7 @@ package com.github.sunlong.hellomonitor.monitor.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -29,7 +30,7 @@ public class Device implements Serializable {
     private DeviceClass deviceClass;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "device", orphanRemoval = true)
-    private Set<Template> templates;
+    private Set<Template> templates = new HashSet<Template>();
 
     public Integer getId() {
         return id;
@@ -73,5 +74,27 @@ public class Device implements Serializable {
 
     public void validate() {
 
+    }
+
+    public void addTemplate(Template template) {
+        Template tp = new Template();
+        tp.setName(template.getName());
+        tp.setDeviceClass(template.getDeviceClass());
+
+        //复制ds
+        for(DataSource ds : template.getDataSources()){
+            tp.addDataSource(ds);
+        }
+
+        //复制graphs
+        for(Graph graph: template.getGraphs()){
+            tp.addGraph(graph);
+        }
+
+        //添加data point到graph points中
+
+
+        tp.setDevice(this);
+        templates.add(tp);
     }
 }

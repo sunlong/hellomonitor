@@ -5,6 +5,8 @@ import com.github.sunlong.hellomonitor.common.SortBean;
 import com.github.sunlong.hellomonitor.exception.AppException;
 import com.github.sunlong.hellomonitor.monitor.dao.IDeviceDao;
 import com.github.sunlong.hellomonitor.monitor.model.Device;
+import com.github.sunlong.hellomonitor.monitor.model.DeviceClass;
+import com.github.sunlong.hellomonitor.monitor.model.Template;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,6 +22,7 @@ import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * User: sunlong
@@ -30,6 +33,9 @@ import java.util.Map;
 @Transactional(readOnly = true)
 public class DeviceService {
     private IDeviceDao deviceDao;
+
+    @Resource
+    private DeviceClassService deviceClassService;
 
     @Resource
     public void setDeviceDao(IDeviceDao deviceDao) {
@@ -57,8 +63,13 @@ public class DeviceService {
     }
 
     @Transactional(readOnly = false, rollbackFor = Exception.class)
-    public void create(Device device) {
+    public void create(Device device) throws AppException {
         device.validate();
+        DeviceClass deviceClass = deviceClassService.find(device.getDeviceClass().getId());
+        Set<Template> templates = deviceClass.getTemplates();
+        for(Template template: templates){
+            device.addTemplate(template);
+        }
         deviceDao.save(device);
     }
 

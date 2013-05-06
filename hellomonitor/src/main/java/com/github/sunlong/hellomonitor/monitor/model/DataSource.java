@@ -1,6 +1,7 @@
 package com.github.sunlong.hellomonitor.monitor.model;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -22,7 +23,7 @@ public class DataSource {
     protected Integer collectionInterval;
 
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "dataSource", orphanRemoval = true)
-    protected Set<DataPoint> dataPoints;
+    protected Set<DataPoint> dataPoints = new HashSet<DataPoint>();
 
     @ManyToOne
     @JoinColumn(name="template_id")
@@ -66,5 +67,18 @@ public class DataSource {
 
     public void setTemplate(Template template) {
         this.template = template;
+    }
+
+    /**
+     * 添加一个新的data point
+     * 但是不复制data point中的graph points
+     */
+    public void addDataPoint(DataPoint dp) {
+        DataPoint tmp = new DataPoint();
+        tmp.setName(dp.getName());
+        tmp.setDataSource(this);
+        tmp.setDescription(dp.getDescription());
+        tmp.setType(dp.getType());
+        dataPoints.add(tmp);
     }
 }

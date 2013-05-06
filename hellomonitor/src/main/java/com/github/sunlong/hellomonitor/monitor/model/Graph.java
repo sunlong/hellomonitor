@@ -1,6 +1,7 @@
 package com.github.sunlong.hellomonitor.monitor.model;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -22,7 +23,7 @@ public class Graph {
     private Template template;
 
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "graph", orphanRemoval = true)
-    private Set<GraphPoint> graphPoints;
+    private Set<GraphPoint> graphPoints = new HashSet<GraphPoint>();
 
     public Integer getId() {
         return id;
@@ -54,5 +55,36 @@ public class Graph {
 
     public void setGraphPoints(Set<GraphPoint> graphPoints) {
         this.graphPoints = graphPoints;
+    }
+
+    /**
+     * 添加一个新的graph point
+     * 此方法要在复制data source后执行
+     */
+    public void addGraphPoint(GraphPoint gp, Set<DataSource> dataSources) {
+        GraphPoint tmp = new GraphPoint();
+        tmp.setType(gp.getType());
+        tmp.setName(gp.getName());
+        tmp.setColor(gp.getColor());
+        tmp.setGraph(this);
+        tmp.setLineWidth(gp.getLineWidth());
+        tmp.setStacked(gp.getStacked());
+
+        //复制data point，设定graph point 与data point的关系
+        //对于每一个data point，查看当前data source中的data points
+        //如果存在一个相同的
+        for(DataPoint dp: gp.getDataPoints()){
+            for(DataSource ds : dataSources){
+                for(DataPoint dp2: ds.getDataPoints()){
+                    if(dp2.getName().equals(dp.getName())){//如果存在，建立双向关系
+                        dp2.getGraphPoints().add(tmp);
+                        tmp.getDataPoints().add(dp2);
+                        break;
+                    }
+                }
+            }
+        }
+
+        graphPoints.add(tmp);
     }
 }

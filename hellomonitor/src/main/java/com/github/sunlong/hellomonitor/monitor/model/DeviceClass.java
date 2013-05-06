@@ -2,6 +2,7 @@ package com.github.sunlong.hellomonitor.monitor.model;
 
 import javax.persistence.*;
 import javax.validation.Validator;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -23,13 +24,13 @@ public class DeviceClass {
     private DeviceClass parent;
 
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy="parent", orphanRemoval = true)
-    private Set<DeviceClass> children;
+    private Set<DeviceClass> children = new HashSet<DeviceClass>();
 
     @OneToMany(mappedBy="deviceClass")
-    private Set<Template> templates;
+    private Set<Template> templates = new HashSet<Template>();
 
     @OneToMany(mappedBy = "deviceClass")
-    private Set<Device> devices;
+    private Set<Device> devices = new HashSet<Device>();
 
     public Integer getId() {
         return id;

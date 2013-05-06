@@ -3,6 +3,7 @@ package com.github.sunlong.hellomonitor.monitor.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -31,7 +32,7 @@ public class DataPoint {
     private String type;//COUNTER, DERIVE, ABSOLUTE, GAUGE, COMPUTE
 
     @ManyToMany(mappedBy = "dataPoints")
-    private Set<GraphPoint> graphPoints;
+    private Set<GraphPoint> graphPoints = new HashSet<GraphPoint>();
 
     public Integer getId() {
         return id;

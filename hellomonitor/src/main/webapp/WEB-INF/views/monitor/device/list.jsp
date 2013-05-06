@@ -33,7 +33,7 @@
                 </ul>
             </div>
 
-            <div id="error"></div>
+            <div id="info"></div>
             <div class="row-fluid">
                 <div>
                     <div class="pull-left"><a href="${ctx}/device/create" class="btn">添加</a></div>

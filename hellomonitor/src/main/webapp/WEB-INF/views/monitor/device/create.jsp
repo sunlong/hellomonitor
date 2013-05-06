@@ -27,7 +27,7 @@
                         deviceClass += ${device.deviceClass.id};
                         </c:when>
                         <c:otherwise>
-                        common.showError("#error", "请选择一个设备分类");
+                        common.showError("#info", "请选择一个设备分类");
                         return false;
                         </c:otherwise>
                         </c:choose>

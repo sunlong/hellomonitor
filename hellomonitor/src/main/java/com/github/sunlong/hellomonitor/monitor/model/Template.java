@@ -2,6 +2,7 @@ package com.github.sunlong.hellomonitor.monitor.model;
 
 import javax.persistence.*;
 import javax.validation.Validator;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -27,10 +28,10 @@ public class Template {
     private Device device;
 
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "template", orphanRemoval = true)
-    private Set<DataSource> dataSources;
+    private Set<DataSource> dataSources = new HashSet<DataSource>();
 
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "template", orphanRemoval = true)
-    private Set<Graph> graphs;
+    private Set<Graph> graphs = new HashSet<Graph>();
 
     public Integer getId() {
         return id;
@@ -83,5 +84,29 @@ public class Template {
     public void validate(Validator validator) {
 
 
+    }
+
+    public void addGraph(Graph graph) {
+        Graph tmp = new Graph();
+        tmp.setName(graph.getName());
+        //复制graph points
+        for(GraphPoint gp: graph.getGraphPoints()){
+            tmp.addGraphPoint(gp, dataSources);
+        }
+        tmp.setTemplate(this);
+        graphs.add(tmp);
+    }
+
+    public void addDataSource(DataSource ds) {
+        DataSource tmp = new DataSource();
+        tmp.setName(ds.getName());
+        tmp.setCollectionInterval(ds.getCollectionInterval());
+        //复制data points
+        for(DataPoint dp: ds.getDataPoints()){
+            tmp.addDataPoint(dp);
+        }
+
+        tmp.setTemplate(this);
+        dataSources.add(tmp);
     }
 }

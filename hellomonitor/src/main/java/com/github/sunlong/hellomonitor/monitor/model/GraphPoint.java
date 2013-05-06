@@ -3,6 +3,7 @@ package com.github.sunlong.hellomonitor.monitor.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -42,7 +43,7 @@ public class GraphPoint {
             joinColumns = @JoinColumn(name="graph_point_id"),
             inverseJoinColumns = @JoinColumn(name="data_point_id")
     )
-    private Set<DataPoint> dataPoints;
+    private Set<DataPoint> dataPoints = new HashSet<DataPoint>();
 
     public Integer getId() {
         return id;
