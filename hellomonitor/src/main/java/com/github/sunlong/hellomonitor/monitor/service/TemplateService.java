@@ -94,4 +94,17 @@ public class TemplateService {
         template.getGraphs().add(graph);
         templateDao.save(template);
     }
+
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
+    public void update(Template template) throws AppException {
+        Template toUpdate = find(template.getId());
+        Template templateByName = templateDao.findByName(template.getName());
+        if(templateByName!=null && templateByName!=toUpdate){
+            throw new AppException(MessageCode.TEMPLATE_EXIST_ERROR, template.getName());
+        }
+
+        toUpdate.setName(template.getName());
+        toUpdate.setDeviceClass(template.getDeviceClass());
+        templateDao.save(toUpdate);
+    }
 }

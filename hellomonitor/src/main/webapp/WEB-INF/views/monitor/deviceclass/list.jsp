@@ -115,7 +115,7 @@
                         var btn = $("#addBtn_"+treeNode.value);
                         if (btn) {
                             btn.bind("click", function(){
-                                $("input[name='parentdeviceClass.id']").val(treeNode.value);
+                                $("input[name='parent.id']").val(treeNode.value);
 
                                 $('#addUG').modal('toggle');
                                 return false;

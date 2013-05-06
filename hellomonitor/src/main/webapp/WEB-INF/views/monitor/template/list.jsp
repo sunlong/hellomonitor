@@ -40,7 +40,11 @@
                         <tr>
                             <td>${template.name}</td>
                             <td>${template.deviceClass.name}</td>
-                            <td><a href="${ctx}/template/listDataSources?id=${template.id}" class="btn">数据源管理</a> <a href="${ctx}/template/listGraphs?id=${template.id}" class="btn">图形管理</a></td>
+                            <td>
+                                <a href="${ctx}/template/update?id=${template.id}" class="btn">修改</a>
+                                <a href="${ctx}/template/listDataSources?id=${template.id}" class="btn">数据源管理</a>
+                                <a href="${ctx}/template/listGraphs?id=${template.id}" class="btn">图形管理</a>
+                            </td>
                         </tr>
                     </c:forEach>
                     </tbody>

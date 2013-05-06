@@ -62,7 +62,7 @@
                 callback:{
                     beforeAsync: function(treeId, treeNode){
                         if(treeNode){
-                            $.fn.zTree.getZTreeObj("tree").setting.async.otherParam = {"parentUserGroupId": treeNode.value};
+                            $.fn.zTree.getZTreeObj("tree").setting.async.otherParam = {"parentId": treeNode.value};
                         }
                         return true;
                     },

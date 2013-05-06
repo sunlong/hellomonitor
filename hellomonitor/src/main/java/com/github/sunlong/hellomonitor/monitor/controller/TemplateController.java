@@ -71,6 +71,19 @@ public class TemplateController {
         return new Result();
     }
 
+    @RequestMapping(value = "/update", method = RequestMethod.GET)
+    public String update1(Integer id, Model model) throws AppException {
+        model.addAttribute("template", templateService.find(id));
+        return "monitor/template/create";
+    }
+
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    @ResponseBody
+    public Result update2(Template template) throws AppException {
+        templateService.update(template);
+        return new Result();
+    }
+
     @RequestMapping(value = "/addSnmpDataSource")
     @ResponseBody
     public Result addSnmpDataSource(SnmpDataSource dataSource) throws AppException {
