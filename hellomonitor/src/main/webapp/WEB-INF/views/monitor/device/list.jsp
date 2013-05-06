@@ -5,6 +5,20 @@
 <head>
     <title>设备列表</title>
     <%@ include file="/common/header.jsp"%>
+    <script type="text/javascript">
+        $(function(){
+            $("button[data-action^='delete=']").click(function(){
+                var id = $(this).attr('data-action').split('=')[1];
+                $.post('${ctx}/device/delete', {id: id}, function(data){
+                    if(data.success){
+                        location.reload();
+                    }else{
+                        common.showError('#info', data.data);
+                    }
+                });
+            });
+        });
+    </script>
 </head>
 <body>
 <%@ include file="/common/nav.jsp"%>
@@ -43,7 +57,7 @@
                             <td>${device.name}</td>
                             <td>${device.deviceClass.name}</td>
                             <td>${device.ip}</td>
-                            <td><a href="${ctx}/device/update" class="btn">修改</a> <button class="btn" data-action="delete=${device.id}">删除</button></td>
+                            <td><a href="${ctx}/device/update?id=${device.id}" class="btn">修改</a> <button class="btn" data-action="delete=${device.id}">删除</button></td>
                         </tr>
                     </c:forEach>
                     </tbody>
