@@ -3,6 +3,7 @@ package com.github.sunlong.hellomonitor.monitor.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.util.Set;
 
 /**
  * User: sunlong
@@ -28,6 +29,9 @@ public class DataPoint {
 
     @Column(length = 8, nullable = false)
     private String type;//COUNTER, DERIVE, ABSOLUTE, GAUGE, COMPUTE
+
+    @ManyToMany(mappedBy = "dataPoints")
+    private Set<GraphPoint> graphPoints;
 
     public Integer getId() {
         return id;
@@ -67,5 +71,13 @@ public class DataPoint {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public Set<GraphPoint> getGraphPoints() {
+        return graphPoints;
+    }
+
+    public void setGraphPoints(Set<GraphPoint> graphPoints) {
+        this.graphPoints = graphPoints;
     }
 }

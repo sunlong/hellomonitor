@@ -1,6 +1,7 @@
 package com.github.sunlong.hellomonitor.monitor.model;
 
 import javax.persistence.*;
+import java.util.Set;
 
 /**
  * User: sunlong
@@ -19,6 +20,9 @@ public class Graph {
     @ManyToOne
     @JoinColumn(name="template_id")
     private Template template;
+
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "graph", orphanRemoval = true)
+    private Set<GraphPoint> graphPoints;
 
     public Integer getId() {
         return id;
@@ -42,5 +46,13 @@ public class Graph {
 
     public void setTemplate(Template template) {
         this.template = template;
+    }
+
+    public Set<GraphPoint> getGraphPoints() {
+        return graphPoints;
+    }
+
+    public void setGraphPoints(Set<GraphPoint> graphPoints) {
+        this.graphPoints = graphPoints;
     }
 }

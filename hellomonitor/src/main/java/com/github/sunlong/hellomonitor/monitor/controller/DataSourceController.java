@@ -30,7 +30,7 @@ public class DataSourceController {
 
     @RequestMapping(value = "/addDataPoint")
     @ResponseBody
-    public Result addDataSource(DataPoint dataPoint) throws AppException {
+    public Result addDataPoint(DataPoint dataPoint) throws AppException {
         dataSourceService.createDataPoint(dataPoint);
         return new Result();
     }

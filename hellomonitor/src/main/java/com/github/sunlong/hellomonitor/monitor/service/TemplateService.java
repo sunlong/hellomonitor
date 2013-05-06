@@ -5,6 +5,7 @@ import com.github.sunlong.hellomonitor.common.SortBean;
 import com.github.sunlong.hellomonitor.exception.AppException;
 import com.github.sunlong.hellomonitor.monitor.dao.ITemplateDao;
 import com.github.sunlong.hellomonitor.monitor.model.DataSource;
+import com.github.sunlong.hellomonitor.monitor.model.Graph;
 import com.github.sunlong.hellomonitor.monitor.model.Template;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Hibernate;
@@ -84,6 +85,13 @@ public class TemplateService {
     public void createDataSource(DataSource dataSource) throws AppException {
         Template template = find(dataSource.getTemplate().getId());
         template.getDataSources().add(dataSource);
+        templateDao.save(template);
+    }
+
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
+    public void createGraph(Graph graph) throws AppException {
+        Template template = find(graph.getTemplate().getId());
+        template.getGraphs().add(graph);
         templateDao.save(template);
     }
 }

@@ -91,4 +91,11 @@ public class TemplateController {
         templateService.createDataSource(dataSource);
         return new Result();
     }
+
+    @RequestMapping(value = "/addGraph")
+    @ResponseBody
+    public Result addCmdDataSource(Graph graph) throws AppException {
+        templateService.createGraph(graph);
+        return new Result();
+    }
 }
