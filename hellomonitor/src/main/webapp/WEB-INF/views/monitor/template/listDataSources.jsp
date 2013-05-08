@@ -59,8 +59,8 @@
                 }
             });
 
-            $('tr[data-action]').click(function(){
-                var id=$(this).attr('data-action');
+            $('button[data-action^="dataPoint="]').click(function(){
+                var id=$(this).attr('data-action').split('=')[1];
                 $('input[name="dataSource.id"]').val(id);//设置添加数制点的dataSource.id
 
                 $.get('${ctx}/dataSource/listDataPoints', {id: id}, function(data){
@@ -78,6 +78,17 @@
                         $('button[data-action^="delete-dp="]').click(function(){
 
                         });
+                    }else{
+                        common.showError('#info', data.data);
+                    }
+                });
+            });
+
+            $('button[data-action^="delete="]').click(function(){
+                var id=$(this).attr('data-action').split('=')[1];
+                $.post('${ctx}/dataSource/delete', {id: id}, function(data){
+                    if(data.success){
+                        location.reload();
                     }else{
                         common.showError('#info', data.data);
                     }
@@ -112,9 +123,13 @@
                         </tr></thead>
                         <tbody>
                         <c:forEach items="${template.dataSources}" var="dataSource">
-                            <tr data-action="${dataSource.id}">
+                            <tr>
                                 <td>${dataSource.name}</td>
-                                <td><button class="btn">数据点管理</button></td>
+                                <td>
+                                    <a class="btn" href="${ctx}/dataSource/update?id=${dataSource.id}">修改</a>
+                                    <button class="btn" data-action="dataPoint=${dataSource.id}">数据点管理</button>
+                                    <button class="btn" data-action="delete=${dataSource.id}">删除</button>
+                                </td>
                             </tr>
                         </c:forEach>
                         </tbody>

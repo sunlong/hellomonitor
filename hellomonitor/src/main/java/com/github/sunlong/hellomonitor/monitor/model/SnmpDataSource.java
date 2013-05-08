@@ -1,5 +1,6 @@
 package com.github.sunlong.hellomonitor.monitor.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 
 /**
@@ -9,6 +10,7 @@ import javax.persistence.Entity;
  */
 @Entity
 public class SnmpDataSource extends DataSource {
+    @Column(length = 64)
     private String oid;
 
     public String getOid() {
@@ -17,5 +19,12 @@ public class SnmpDataSource extends DataSource {
 
     public void setOid(String oid) {
         this.oid = oid;
+    }
+
+    @Override
+    public void copy(DataSource dataSource){
+        super.copy(dataSource);
+        SnmpDataSource snmpDataSource = (SnmpDataSource) dataSource;
+        this.oid = snmpDataSource.getOid();
     }
 }

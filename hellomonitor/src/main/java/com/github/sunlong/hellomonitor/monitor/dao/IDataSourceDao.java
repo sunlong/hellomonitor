@@ -9,4 +9,5 @@ import org.springframework.data.repository.CrudRepository;
  * Time: 下午3:18
  */
 public interface IDataSourceDao extends CrudRepository<DataSource, Integer> {
+    DataSource findByName(String name);
 }

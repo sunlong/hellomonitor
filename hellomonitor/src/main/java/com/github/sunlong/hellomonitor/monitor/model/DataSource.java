@@ -81,4 +81,9 @@ public class DataSource {
         tmp.setType(dp.getType());
         dataPoints.add(tmp);
     }
+
+    public void copy(DataSource dataSource) {
+        this.name = dataSource.getName();
+        this.collectionInterval = dataSource.getCollectionInterval();
+    }
 }
