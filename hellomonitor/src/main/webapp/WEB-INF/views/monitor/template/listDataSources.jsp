@@ -45,7 +45,7 @@
             $("#addDP form").validate({
                 errorLabelContainer: $('#info3'),
                 submitHandler: function(form){
-                    $.post('${ctx}/dataSource/addDataPoint', $(form).serialize(), function(data){
+                    $.post($(form).attr('action'), $(form).serialize(), function(data){
                         if(data.success){
                             location.reload();
                         }else{
@@ -68,15 +68,36 @@
                         var template =
                                 '<h4>数据点列表</h4><div><a href="#addDP" class="btn" data-toggle="modal">添加</a></div><table class="table table-bordered">' +
                                 '<# for(var i=0; i<data.length; i++){ #>' +
-                                '<tr><td><#= data[i].name #></td><td><button class="btn" data-action="add-dp=<#= data[i].id #>">修改</button> <button class="btn" data-action="delete-dp=<#= data[i].id #>">删除</button></td></tr>' +
+                                '<tr><td><#= data[i].name #></td><td><button class="btn" data-action="update-dp=<#= data[i].id #>">修改</button> <button class="btn" data-action="delete-dp=<#= data[i].id #>">删除</button></td></tr>' +
                                 '<# } #>' +
                                 '</table>';
                         $("#datapoint").html(parseTemplate(template, {data: data.data}));
-                        $('button[data-action^="add-dp="]').click(function(){
-
+                        $('button[data-action^="update-dp="]').click(function(){
+                            var id = $(this).attr('data-action').split('=')[1];
+                            $.get('${ctx}/dataPoint/show', {id: id}, function(data){
+                                if(data.success){
+                                    $('#addDP h3').text('修改数据点');
+                                    $form = $('#addDP form');
+                                    $form.attr('action', '${ctx}/dataPoint/update');
+                                    $form.find('input[name="id"]').val(data.data.id);
+                                    $form.find('input[name="name"]').val(data.data.name);
+                                    $form.find('select').val(data.data.type);
+                                    $('#addDP').modal('show');
+                                }else{
+                                    common.showError('#info', data.data);
+                                }
+                            });
                         });
                         $('button[data-action^="delete-dp="]').click(function(){
-
+                            var $this = $(this);
+                            var id = $this.attr('data-action').split('=')[1];
+                            $.post('${ctx}/dataPoint/delete', {id: id}, function(data){
+                                if(data.success){
+                                    $this.parent().parent().remove();
+                                }else{
+                                    common.showError('#info', data.data);
+                                }
+                            });
                         });
                     }else{
                         common.showError('#info', data.data);
@@ -188,9 +209,10 @@
         <h3>添加数据点</h3>
     </div>
     <div id="info3"></div>
-    <form class="form-horizontal" autocomplete="off">
+    <form class="form-horizontal" autocomplete="off" action="${ctx}/dataSource/addDataPoint">
         <div class="modal-body">
             <input type="hidden" name="dataSource.id"/>
+            <input type="hidden" name="id"/>
             <div class="control-group">
                 <label class="control-label">名称：</label>
                 <div class="controls"><input type="text" name="name"/></div>
