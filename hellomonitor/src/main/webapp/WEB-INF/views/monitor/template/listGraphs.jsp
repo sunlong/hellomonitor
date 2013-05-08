@@ -58,7 +58,15 @@
 
                         });
                         $('button[data-action^="delete-dp="]').click(function(){
-
+                            var $this = $(this);
+                            var id = $this.attr('data-action').split('=')[1];
+                            $.post('${ctx}/graphPoint/delete', {id: id}, function(data){
+                                if(data.success){
+                                    $this.parent().parent().remove();
+                                }else{
+                                    common.showError('#info', data.data);
+                                }
+                            });
                         });
                     }else{
                         common.showError('#info', data.data);
