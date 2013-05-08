@@ -9,4 +9,5 @@ import org.springframework.data.repository.CrudRepository;
  * Time: 上午11:53
  */
 public interface IGraphPointDao extends CrudRepository<GraphPoint, Integer> {
+    GraphPoint findByName(String name);
 }

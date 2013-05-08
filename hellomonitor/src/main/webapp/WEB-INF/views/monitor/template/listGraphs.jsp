@@ -27,7 +27,7 @@
             $("#addDP form").validate({
                 errorLabelContainer: $('#info3'),
                 submitHandler: function(form){
-                    $.post('${ctx}/graph/addGraphPoint', $(form).serialize(), function(data){
+                    $.post($(form).attr('action'), $(form).serialize(), function(data){
                         if(data.success){
                             location.reload();
                         }else{
@@ -50,12 +50,30 @@
                         var template =
                                 '<h4>图形点列表</h4><div><a href="#addDP" class="btn" data-toggle="modal">添加</a></div><table class="table table-bordered">' +
                                         '<# for(var i=0; i<data.length; i++){ #>' +
-                                        '<tr><td><#= data[i].name #></td><td><button class="btn" data-action="add-dp=<#= data[i].id #>">修改</button> <button class="btn" data-action="delete-dp=<#= data[i].id #>">删除</button></td></tr>' +
+                                        '<tr><td><#= data[i].name #></td><td><button class="btn" data-action="update-dp=<#= data[i].id #>">修改</button> <button class="btn" data-action="delete-dp=<#= data[i].id #>">删除</button></td></tr>' +
                                         '<# } #>' +
                                         '</table>';
                         $("#datapoint").html(parseTemplate(template, {data: data.data}));
-                        $('button[data-action^="add-dp="]').click(function(){
-
+                        $('button[data-action^="update-dp="]').click(function(){
+                            var id = $(this).attr('data-action').split('=')[1];
+                            $.get('${ctx}/graphPoint/show', {id: id}, function(data){
+                                if(data.success){
+                                    $('#addDP h3').text('修改图形点');
+                                    $form = $('#addDP form');
+                                    $form.attr('action', '${ctx}/graphPoint/update');
+                                    $form.find('input[name="id"]').val(data.data.id);
+                                    $form.find('input[name="name"]').val(data.data.name);
+                                    $form.find('input[name="lineWidth"]').val(data.data.lineWidth);
+                                    $form.find('input[name="color"]').val(data.data.color);
+                                    $form.find('select').val(data.data.type);
+                                    if(data.data.stacked){
+                                        $form.find('input[name="stacked"]').attr('checked', 'checked');
+                                    }
+                                    $('#addDP').modal('show');
+                                }else{
+                                    common.showError('#info', data.data);
+                                }
+                            });
                         });
                         $('button[data-action^="delete-dp="]').click(function(){
                             var $this = $(this);
@@ -174,9 +192,10 @@
         <h3>添加图形点</h3>
     </div>
     <div id="info3"></div>
-    <form class="form-horizontal" autocomplete="off">
+    <form class="form-horizontal" autocomplete="off" action="${ctx}/graph/addGraphPoint">
         <div class="modal-body">
             <input type="hidden" name="graph.id"/>
+            <input type="hidden" name="id"/>
             <div class="control-group">
                 <label class="control-label">数据源：</label>
                 <div class="controls">

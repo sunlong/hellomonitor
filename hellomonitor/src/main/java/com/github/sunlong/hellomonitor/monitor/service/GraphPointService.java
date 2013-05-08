@@ -33,4 +33,21 @@ public class GraphPointService {
         }
         return graphPoint;
     }
+
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
+    public void update(GraphPoint graphPoint) throws AppException {
+        GraphPoint toUpdate = find(graphPoint.getId());
+        GraphPoint graphPointByName = graphPointDao.findByName(graphPoint.getName());
+        if(graphPointByName != null && graphPointByName!=toUpdate){
+            throw new AppException(MessageCode.GRAPH_POINT_EXIST_ERROR, graphPoint.getName());
+        }
+
+        toUpdate.setName(graphPoint.getName());
+        toUpdate.setStacked(graphPoint.getStacked());
+        toUpdate.setLineWidth(graphPoint.getLineWidth());
+        toUpdate.setColor(graphPoint.getColor());
+        toUpdate.setType(graphPoint.getType());
+
+        graphPointDao.save(toUpdate);
+    }
 }

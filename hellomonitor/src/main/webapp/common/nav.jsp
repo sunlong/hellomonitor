@@ -2,7 +2,7 @@
 <div class="navbar navbar-fixed-top" id="NavMenu">
 	<div class="navbar-inner">
 		<div class="container-fluid">
-			<a class="btn btn-navbar" data-toggle="collapse" data-target=".top-nav.nav-collapse,.sidebar-nav.nav-collapse">
+			<a class="btn btn-navbar">
                 <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
 			</a>
             <a class="brand" href="${ctx}/"> <img alt="Logo" src="${ctx}/static/images/logo.png" /> <span>HelloMonitor</span></a>
@@ -16,7 +16,6 @@
                     <li><a href="${ctx}/user/list">用户管理</a></li>
                     <li><a href="${ctx}/role/list">角色管理</a></li>
                     <li><a href="${ctx}/resource/list">资源管理</a></li>
-                    <li><a href="${ctx}/log/list">系统日志</a></li>
                 </ul>
 			</div>
 
@@ -33,12 +32,9 @@
             </div>
 
             <div class="btn-group pull-left">
-                <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-                    <i class="icon-th"></i><span class="hidden-phone">统计报表</span><span class="caret"></span>
+                <a class="btn" href="${ctx}/log/list">
+                    <i class="icon-eye-open"></i><span class="hidden-phone">日志管理</span>
                 </a>
-                <ul class="dropdown-menu">
-                    <li><a href="${ctx}/capacity/list">资源统计</a></li>
-                </ul>
             </div>
 
             <!-- user dropdown starts -->
