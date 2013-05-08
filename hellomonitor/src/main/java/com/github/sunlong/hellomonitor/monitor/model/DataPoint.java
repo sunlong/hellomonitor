@@ -12,7 +12,7 @@ import java.util.Set;
  * Time: 上午10:28
  */
 @Entity
-@JsonIgnoreProperties({"dataSource"})
+@JsonIgnoreProperties({"dataSource", "graphPoints"})
 public class DataPoint {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
