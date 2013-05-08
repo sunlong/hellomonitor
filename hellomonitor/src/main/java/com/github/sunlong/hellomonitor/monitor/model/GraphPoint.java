@@ -116,4 +116,9 @@ public class GraphPoint {
     public void setGraph(Graph graph) {
         this.graph = graph;
     }
+
+    public void addDataPoint(DataPoint dataPoint) {
+        dataPoint.getGraphPoints().add(this);
+        dataPoints.add(dataPoint);
+    }
 }

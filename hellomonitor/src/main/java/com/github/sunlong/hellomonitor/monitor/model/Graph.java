@@ -18,6 +18,10 @@ public class Graph {
     @Column(length = 32, nullable = false)
     private String name;
 
+    private Integer width;
+
+    private Integer length;
+
     @ManyToOne
     @JoinColumn(name="template_id")
     private Template template;
@@ -55,6 +59,22 @@ public class Graph {
 
     public void setGraphPoints(Set<GraphPoint> graphPoints) {
         this.graphPoints = graphPoints;
+    }
+
+    public Integer getWidth() {
+        return width;
+    }
+
+    public void setWidth(Integer width) {
+        this.width = width;
+    }
+
+    public Integer getLength() {
+        return length;
+    }
+
+    public void setLength(Integer length) {
+        this.length = length;
     }
 
     /**

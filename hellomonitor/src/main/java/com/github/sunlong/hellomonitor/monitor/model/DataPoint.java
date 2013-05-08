@@ -34,6 +34,13 @@ public class DataPoint {
     @ManyToMany(mappedBy = "dataPoints")
     private Set<GraphPoint> graphPoints = new HashSet<GraphPoint>();
 
+    public DataPoint(Integer id) {
+        this.id = id;
+    }
+
+    public DataPoint() {
+    }
+
     public Integer getId() {
         return id;
     }

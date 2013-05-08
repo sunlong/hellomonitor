@@ -59,8 +59,8 @@
                 }
             });
 
-            $('button[data-action^="dataPoint="]').click(function(){
-                var id=$(this).attr('data-action').split('=')[1];
+            $('tr[data-action]').click(function(){
+                var id=$(this).attr('data-action');
                 $('input[name="dataSource.id"]').val(id);//设置添加数制点的dataSource.id
 
                 $.get('${ctx}/dataSource/listDataPoints', {id: id}, function(data){
@@ -93,6 +93,7 @@
                         common.showError('#info', data.data);
                     }
                 });
+                return false;
             });
         });
     </script>
@@ -123,11 +124,10 @@
                         </tr></thead>
                         <tbody>
                         <c:forEach items="${template.dataSources}" var="dataSource">
-                            <tr>
+                            <tr data-action="${dataSource.id}">
                                 <td>${dataSource.name}</td>
                                 <td>
                                     <a class="btn" href="${ctx}/dataSource/update?id=${dataSource.id}">修改</a>
-                                    <button class="btn" data-action="dataPoint=${dataSource.id}">数据点管理</button>
                                     <button class="btn" data-action="delete=${dataSource.id}">删除</button>
                                 </td>
                             </tr>

@@ -37,4 +37,24 @@ public class GraphService {
         Hibernate.initialize(graph.getGraphPoints());
         return graph;
     }
+
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
+    public void update(Graph graph) throws AppException {
+        Graph toUpdate = find(graph.getId());
+
+        Graph graphByName = graphDao.findByName(graph.getName());
+        if(graphByName!=null && graphByName!=toUpdate){
+            throw new AppException(MessageCode.GRAPH_EXIST_ERROR, graph.getName());
+        }
+
+        toUpdate.setName(graph.getName());
+
+        graphDao.save(toUpdate);
+    }
+
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
+    public void delete(Integer id) throws AppException {
+        Graph graph = find(id);
+        graphDao.delete(graph);
+    }
 }

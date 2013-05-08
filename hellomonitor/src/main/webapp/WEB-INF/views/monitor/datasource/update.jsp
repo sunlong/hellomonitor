@@ -60,7 +60,6 @@
             <form class="form-horizontal" autocomplete="off">
                 <div class="modal-body">
                     <input type="hidden" name="id" value="${dataSource.id}"/>
-                    <input type="hidden" name="template.id" value="${dataSource.template.id}"/>
                     <div class="control-group">
                         <label class="control-label">名称：</label>
                         <div class="controls"><input type="text" name="name" value="${dataSource.name}"/></div>

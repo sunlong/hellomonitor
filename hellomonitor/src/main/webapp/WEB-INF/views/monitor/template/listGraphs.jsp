@@ -65,6 +65,18 @@
                     }
                 });
             });
+
+            $('button[data-action^="delete="]').click(function(){
+                var id=$(this).attr('data-action').split('=')[1];
+                $.post('${ctx}/graph/delete', {id: id}, function(data){
+                    if(data.success){
+                        location.reload();
+                    }else{
+                        common.showError('#info', data.data);
+                    }
+                });
+                return false;
+            });
         });
     </script>
 </head>
@@ -90,13 +102,20 @@
                     <table class="table table-striped table-bordered">
                         <thead><tr>
                             <th>名称</th>
+                            <th>长度</th>
+                            <th>宽度</th>
                             <th>操作</th>
                         </tr></thead>
                         <tbody>
                         <c:forEach items="${template.graphs}" var="graph">
                             <tr data-action="${graph.id}">
                                 <td>${graph.name}</td>
-                                <td><button class="btn">图形点管理</button></td>
+                                <td>${graph.length}</td>
+                                <td>${graph.width}</td>
+                                <td>
+                                    <a class="btn" href="${ctx}/graph/update?id=${graph.id}">修改</a>
+                                    <button class="btn" data-action="delete=${graph.id}">删除</button>
+                                </td>
                             </tr>
                         </c:forEach>
                         </tbody>
@@ -150,6 +169,18 @@
     <form class="form-horizontal" autocomplete="off">
         <div class="modal-body">
             <input type="hidden" name="graph.id"/>
+            <div class="control-group">
+                <label class="control-label">数据源：</label>
+                <div class="controls">
+                    <select name="dataPointId">
+                    <c:forEach items="${template.dataSources}" var="dataSource">
+                        <c:forEach items="${dataSource.dataPoints}" var="dataPoint">
+                            <option value="${dataPoint.id}">${dataPoint.name}</option>
+                        </c:forEach>
+                    </c:forEach>
+                    </select>
+                </div>
+            </div>
             <div class="control-group">
                 <label class="control-label">名称：</label>
                 <div class="controls"><input type="text" name="name"/></div>

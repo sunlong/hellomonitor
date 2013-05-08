@@ -76,7 +76,9 @@ public class TemplateService {
         if(template == null){
             throw new AppException(MessageCode.TEMPLATE_NOT_EXIST_ERROR, id);
         }
-        Hibernate.initialize(template.getDataSources());
+        for(DataSource dataSource: template.getDataSources()){
+            Hibernate.initialize(dataSource.getDataPoints());
+        }
         Hibernate.initialize(template.getGraphs());
         return template;
     }
