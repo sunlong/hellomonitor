@@ -3,12 +3,14 @@ package com.github.sunlong.hellomonitor.monitor.model;
 import org.snmp4j.mp.SnmpConstants;
 
 import javax.persistence.Column;
+import javax.persistence.Embeddable;
 
 /**
  * User: sunlong
  * Date: 13-5-8
  * Time: 下午4:21
  */
+@Embeddable
 public class DeviceProperty {
     @Column(length = 32, nullable = false)
     private String ip;

@@ -74,21 +74,18 @@ public class DeviceService {
     public void update(Device device) throws AppException {
         Device toUpdate = find(device.getId());
 
-        Device deviceByIp = deviceDao.findByIp(device.getIp());
+        Device deviceByIp = deviceDao.findByIp(device.getDeviceProperty().getIp());
 
         if(deviceByIp != null && deviceByIp != toUpdate){
-            throw new AppException(MessageCode.DEVICE_EXIST_ERROR, device.getIp());
+            throw new AppException(MessageCode.DEVICE_EXIST_ERROR, device.getDeviceProperty().getIp());
         }
-        toUpdate.setIp(device.getIp());
 
         Device deviceByName = deviceDao.findByName(device.getName());
         if(deviceByName != null && deviceByName != toUpdate){
-            throw new AppException(MessageCode.DEVICE_EXIST_ERROR, device.getIp());
+            throw new AppException(MessageCode.DEVICE_EXIST_ERROR, device.getName());
         }
-        toUpdate.setName(device.getName());
 
-        toUpdate.setDeviceClass(device.getDeviceClass());
-
+        toUpdate.copy(device);
         deviceDao.save(toUpdate);
     }
 

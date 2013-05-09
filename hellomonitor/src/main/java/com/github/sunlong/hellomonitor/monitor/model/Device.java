@@ -22,6 +22,7 @@ public class Device implements Serializable {
     @Column(length = 32, nullable = false)
     private String name;
 
+    @Embedded
     private DeviceProperty deviceProperty;
 
     @ManyToOne
@@ -90,10 +91,13 @@ public class Device implements Serializable {
             tp.addGraph(graph);
         }
 
-        //添加data point到graph points中
-
-
         tp.setDevice(this);
         templates.add(tp);
+    }
+
+    public void copy(Device device) {
+        this.name = device.getName();
+        this.deviceClass = device.getDeviceClass();
+        this.deviceProperty = device.getDeviceProperty();
     }
 }
