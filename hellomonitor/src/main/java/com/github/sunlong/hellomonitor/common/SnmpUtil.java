@@ -30,8 +30,8 @@ public class SnmpUtil {
         private static final SnmpUtil INSTANCE = new SnmpUtil();
     }
 
-    private static ConcurrentHashMap<String, Snmp> snmpMap = new ConcurrentHashMap<String, Snmp>();
-    private static ConcurrentHashMap<String, CommunityTarget> targetMap = new ConcurrentHashMap<String, CommunityTarget>();
+    private ConcurrentHashMap<String, Snmp> snmpMap = new ConcurrentHashMap<String, Snmp>();
+    private ConcurrentHashMap<String, CommunityTarget> targetMap = new ConcurrentHashMap<String, CommunityTarget>();
 
     public void send(String ip, String oid) throws IOException {
 

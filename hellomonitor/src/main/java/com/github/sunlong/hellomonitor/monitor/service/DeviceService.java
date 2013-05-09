@@ -1,6 +1,7 @@
 package com.github.sunlong.hellomonitor.monitor.service;
 
 import com.github.sunlong.hellomonitor.common.MessageCode;
+import com.github.sunlong.hellomonitor.common.ScheduleUtil;
 import com.github.sunlong.hellomonitor.common.SortBean;
 import com.github.sunlong.hellomonitor.exception.AppException;
 import com.github.sunlong.hellomonitor.monitor.dao.IDeviceDao;
@@ -67,6 +68,15 @@ public class DeviceService {
             device.addTemplate(template);
         }
         deviceDao.save(device);
+        monitor(device);
+    }
+
+    private void monitor(Device device){
+        for(Template template: device.getTemplates()){
+            for(DataSource dataSource: template.getDataSources()){
+                ScheduleUtil.getInstance().scheduleAtFixedRate(device, dataSource);
+            }
+        }
     }
 
     @Transactional(readOnly = false, rollbackFor = Exception.class)
@@ -100,6 +110,15 @@ public class DeviceService {
     public void delete(Integer id) throws AppException {
         Device device = find(id);
         deviceDao.delete(device);
+        removeMonitor(device);
+    }
+
+    private void removeMonitor(Device device){
+        for(Template template: device.getTemplates()){
+            for(DataSource dataSource: template.getDataSources()){
+                ScheduleUtil.getInstance().cancel(dataSource.getId());
+            }
+        }
     }
 
     public List<Device> listAll() {
