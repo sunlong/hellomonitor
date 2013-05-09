@@ -27,4 +27,9 @@ public class CommandDataSource extends DataSource{
         CommandDataSource commandDataSource = (CommandDataSource)dataSource;
         this.command = commandDataSource.getCommand();
     }
+
+    @Override
+    public void collect(DeviceProperty deviceProperty){
+
+    }
 }

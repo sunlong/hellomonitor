@@ -1,5 +1,8 @@
 package com.github.sunlong.hellomonitor.monitor.model;
 
+import com.github.sunlong.hellomonitor.common.MessageCode;
+import com.github.sunlong.hellomonitor.exception.AppException;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -85,5 +88,9 @@ public class DataSource {
     public void copy(DataSource dataSource) {
         this.name = dataSource.getName();
         this.collectionInterval = dataSource.getCollectionInterval();
+    }
+
+    public void collect(DeviceProperty deviceProperty) throws AppException {
+        throw new AppException(MessageCode.METHOD_NOT_OVERRIDE_ERROR, "DataSource.collect");
     }
 }

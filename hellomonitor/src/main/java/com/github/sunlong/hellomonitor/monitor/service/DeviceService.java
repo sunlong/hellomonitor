@@ -19,10 +19,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * User: sunlong
@@ -107,5 +104,13 @@ public class DeviceService {
     public void delete(Integer id) throws AppException {
         Device device = find(id);
         deviceDao.delete(device);
+    }
+
+    public List<Device> listAll() {
+        ArrayList<Device> devices = new ArrayList<Device>();
+        for (Device device : deviceDao.findAll()) {
+            devices.add(device);
+        }
+        return devices;
     }
 }

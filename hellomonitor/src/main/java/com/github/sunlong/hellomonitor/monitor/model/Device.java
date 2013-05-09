@@ -22,8 +22,7 @@ public class Device implements Serializable {
     @Column(length = 32, nullable = false)
     private String name;
 
-    @Column(length = 32, nullable = false)
-    private String ip;
+    private DeviceProperty deviceProperty;
 
     @ManyToOne
     @JoinColumn(name = "device_class_id")
@@ -48,14 +47,6 @@ public class Device implements Serializable {
         this.name = name;
     }
 
-    public String getIp() {
-        return ip;
-    }
-
-    public void setIp(String ip) {
-        this.ip = ip;
-    }
-
     public Set<Template> getTemplates() {
         return templates;
     }
@@ -70,6 +61,14 @@ public class Device implements Serializable {
 
     public void setDeviceClass(DeviceClass deviceClass) {
         this.deviceClass = deviceClass;
+    }
+
+    public DeviceProperty getDeviceProperty() {
+        return deviceProperty;
+    }
+
+    public void setDeviceProperty(DeviceProperty deviceProperty) {
+        this.deviceProperty = deviceProperty;
     }
 
     public void validate() {

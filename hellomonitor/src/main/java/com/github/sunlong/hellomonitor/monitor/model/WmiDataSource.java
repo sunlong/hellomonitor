@@ -9,4 +9,8 @@ import javax.persistence.Entity;
  */
 @Entity
 public class WmiDataSource extends DataSource{
+    @Override
+    public void collect(DeviceProperty deviceProperty){
+
+    }
 }
