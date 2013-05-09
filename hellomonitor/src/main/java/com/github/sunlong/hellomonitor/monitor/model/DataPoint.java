@@ -13,7 +13,7 @@ import java.util.Set;
  */
 @Entity
 @JsonIgnoreProperties({"dataSource", "graphPoints"})
-public class DataPoint {
+public class DataPoint implements Cloneable{
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer id;
@@ -87,5 +87,13 @@ public class DataPoint {
 
     public void setGraphPoints(Set<GraphPoint> graphPoints) {
         this.graphPoints = graphPoints;
+    }
+
+    @Override
+    public DataPoint clone() throws CloneNotSupportedException {
+        DataPoint dataPoint = (DataPoint)super.clone();
+        dataPoint.setId(null);
+        dataPoint.setGraphPoints(new HashSet<GraphPoint>());
+        return dataPoint;
     }
 }

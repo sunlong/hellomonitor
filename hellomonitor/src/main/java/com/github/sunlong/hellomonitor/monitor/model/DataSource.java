@@ -15,7 +15,7 @@ import java.util.Set;
 @Entity
 @Inheritance
 @DiscriminatorColumn(name="data_source_type")
-public class DataSource {
+public class DataSource implements Cloneable{
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     protected Integer id;
@@ -72,19 +72,6 @@ public class DataSource {
         this.template = template;
     }
 
-    /**
-     * 添加一个新的data point
-     * 但是不复制data point中的graph points
-     */
-    public void addDataPoint(DataPoint dp) {
-        DataPoint tmp = new DataPoint();
-        tmp.setName(dp.getName());
-        tmp.setDataSource(this);
-        tmp.setDescription(dp.getDescription());
-        tmp.setType(dp.getType());
-        dataPoints.add(tmp);
-    }
-
     public void copy(DataSource dataSource) {
         this.name = dataSource.getName();
         this.collectionInterval = dataSource.getCollectionInterval();
@@ -92,5 +79,19 @@ public class DataSource {
 
     public void collect(DeviceProperty deviceProperty) throws AppException {
         throw new AppException(MessageCode.METHOD_NOT_OVERRIDE_ERROR, "DataSource.collect");
+    }
+
+    @Override
+    public DataSource clone() throws CloneNotSupportedException {
+        DataSource dataSource = (DataSource)super.clone();
+        dataSource.setId(null);
+
+        dataSource.dataPoints = new HashSet<DataPoint>();
+        for(DataPoint dataPoint: this.dataPoints){
+            DataPoint dp = dataPoint.clone();
+            dp.setDataSource(this);
+            dataSource.dataPoints.add(dp);
+        }
+        return dataSource;
     }
 }

@@ -98,15 +98,14 @@ public class Template {
     }
 
     public void addDataSource(DataSource ds) {
-        DataSource tmp = new DataSource();
-        tmp.setName(ds.getName());
-        tmp.setCollectionInterval(ds.getCollectionInterval());
-        //复制data points
-        for(DataPoint dp: ds.getDataPoints()){
-            tmp.addDataPoint(dp);
+        DataSource dataSource = null;
+        try {
+            dataSource = ds.clone();
+            dataSource.setTemplate(this);
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();//todo log this exception
         }
 
-        tmp.setTemplate(this);
-        dataSources.add(tmp);
+        dataSources.add(dataSource);
     }
 }

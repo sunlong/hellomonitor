@@ -42,4 +42,9 @@ public class SnmpDataSource extends DataSource {
 
         }
     }
+
+    @Override
+    public SnmpDataSource clone() throws CloneNotSupportedException {
+        return (SnmpDataSource)super.clone();
+    }
 }

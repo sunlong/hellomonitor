@@ -13,4 +13,9 @@ public class WmiDataSource extends DataSource{
     public void collect(DeviceProperty deviceProperty){
 
     }
+
+    @Override
+    public WmiDataSource clone() throws CloneNotSupportedException {
+        return (WmiDataSource)super.clone();
+    }
 }

@@ -120,7 +120,37 @@
                 <div class="control-group">
                     <label class="control-label" for="ip"><span class="font-red">*</span>IP</label>
                     <div class="controls">
-                        <input type="text" id="ip" name="ip" value="${device.ip}"/>
+                        <input type="text" id="ip" name="deviceProperty.ip" value="${device.deviceProperty.ip}"/>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="snmpCommunity"><span class="font-red">*</span>SNMP Community</label>
+                    <div class="controls">
+                        <input type="text" id="snmpCommunity" name="deviceProperty.snmpCommunity" value="${device.deviceProperty.snmpCommunity}"/>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="snmpVersion"><span class="font-red">*</span>SNMP版本</label>
+                    <div class="controls">
+                        <input type="text" id="snmpVersion" name="deviceProperty.snmpVersion" value="${device.deviceProperty.snmpVersion}"/>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="snmpPort"><span class="font-red">*</span>SNMP端口</label>
+                    <div class="controls">
+                        <input type="text" id="snmpPort" name="deviceProperty.snmpPort" value="${device.deviceProperty.snmpPort}"/>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="snmpTimeout"><span class="font-red">*</span>SNMP超时</label>
+                    <div class="controls">
+                        <input type="text" id="snmpTimeout" name="deviceProperty.snmpTimeout" value="${device.deviceProperty.snmpTimeout}"/>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="snmpTries"><span class="font-red">*</span>SNMP重试次数</label>
+                    <div class="controls">
+                        <input type="text" id="snmpTries" name="deviceProperty.snmpTries" value="${device.deviceProperty.snmpTries}"/>
                     </div>
                 </div>
                 <div class="control-group">

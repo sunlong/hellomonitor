@@ -32,4 +32,9 @@ public class CommandDataSource extends DataSource{
     public void collect(DeviceProperty deviceProperty){
 
     }
+
+    @Override
+    public CommandDataSource clone() throws CloneNotSupportedException {
+        return (CommandDataSource)super.clone();
+    }
 }

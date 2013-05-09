@@ -4,10 +4,9 @@ import com.github.sunlong.hellomonitor.common.MessageCode;
 import com.github.sunlong.hellomonitor.common.SortBean;
 import com.github.sunlong.hellomonitor.exception.AppException;
 import com.github.sunlong.hellomonitor.monitor.dao.IDeviceDao;
-import com.github.sunlong.hellomonitor.monitor.model.Device;
-import com.github.sunlong.hellomonitor.monitor.model.DeviceClass;
-import com.github.sunlong.hellomonitor.monitor.model.Template;
+import com.github.sunlong.hellomonitor.monitor.model.*;
 import org.apache.commons.lang3.StringUtils;
+import org.hibernate.Hibernate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
@@ -106,6 +105,11 @@ public class DeviceService {
     public List<Device> listAll() {
         ArrayList<Device> devices = new ArrayList<Device>();
         for (Device device : deviceDao.findAll()) {
+            for(Template template: device.getTemplates()){
+                for(DataSource dataSource: template.getDataSources()){
+                    Hibernate.initialize(dataSource.getDataPoints());
+                }
+            }
             devices.add(device);
         }
         return devices;
